@@ -1,0 +1,111 @@
+/* ============================================================
+   PagoForm.css — Formulario de pago profesional
+   ============================================================ */
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes progressFill { from{width:0} to{width:100%} }
+@keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+.modal-content--pago { max-width: 520px; }
+
+/* ── Monto ── */
+.pago-monto-box { text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(212,175,55,0.02)); border: 1px solid rgba(212,175,55,0.12); border-radius: 12px; margin-bottom: 24px; }
+.pago-monto-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: rgba(232,230,225,0.4); margin: 0 0 6px; }
+.pago-monto-valor { font-size: 36px; font-weight: 700; color: #D4AF37; font-family: 'Playfair Display', serif; margin: 0; }
+.pago-monto-info { font-size: 12px; color: rgba(232,230,225,0.35); margin: 8px 0 0; }
+
+/* ── Tabs método de pago ── */
+.pago-metodos-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+.pago-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; background: rgba(15,25,50,0.4); border: 1.5px solid rgba(212,175,55,0.08); border-radius: 10px; cursor: pointer; transition: all 0.25s ease; font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(232,230,225,0.5); }
+.pago-tab:hover { border-color: rgba(212,175,55,0.2); color: rgba(232,230,225,0.7); }
+.pago-tab--active { border-color: rgba(212,175,55,0.5); background: rgba(212,175,55,0.08); color: #D4AF37; font-weight: 500; }
+.pago-tab-icon { font-size: 22px; }
+
+/* ── Tarjeta visual ── */
+.pago-card-visual { width: 100%; height: 180px; background: linear-gradient(135deg, #1a1a3e 0%, #0d1b2e 40%, #162447 100%); border-radius: 14px; padding: 24px; position: relative; margin-bottom: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.pago-card-visual::before { content: ''; position: absolute; top: -50%; right: -30%; width: 200px; height: 200px; border-radius: 50%; background: rgba(212,175,55,0.06); }
+.pago-card-visual::after { content: ''; position: absolute; bottom: -40%; left: -20%; width: 180px; height: 180px; border-radius: 50%; background: rgba(59,130,246,0.04); }
+.pago-card-chip { width: 40px; height: 28px; background: linear-gradient(135deg, #D4AF37, #B8962E); border-radius: 6px; margin-bottom: 20px; position: relative; }
+.pago-card-chip::after { content: ''; position: absolute; inset: 4px; border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; }
+.pago-card-number { font-size: 20px; font-weight: 400; letter-spacing: 3px; color: rgba(232,230,225,0.8); margin-bottom: 16px; font-family: 'Courier New', monospace; }
+.pago-card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+.pago-card-label { display: block; font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: rgba(232,230,225,0.3); margin-bottom: 2px; }
+.pago-card-text { display: block; font-size: 13px; color: rgba(232,230,225,0.7); letter-spacing: 1px; }
+.pago-card-visual .card-brand { position: absolute; top: 20px; right: 24px; }
+
+/* Card brand logos */
+.card-brand { font-weight: 800; font-size: 16px; letter-spacing: 1px; }
+.card-brand--visa { color: #1A1F71; background: #fff; padding: 2px 8px; border-radius: 3px; font-style: italic; font-size: 14px; }
+.card-brand--mc { color: #fff; background: linear-gradient(135deg, #EB001B, #F79E1B); padding: 2px 8px; border-radius: 3px; font-size: 12px; }
+.card-brand--amex { color: #fff; background: #006FCF; padding: 2px 8px; border-radius: 3px; font-size: 12px; }
+
+/* ── Form fields ── */
+.pago-form { animation: fadeIn 0.3s ease; }
+.pago-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.pago-field--full { width: 100%; }
+.pago-field label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(232,230,225,0.45); }
+.pago-field input, .pago-field select {
+  padding: 12px 14px; background: rgba(15,25,50,0.5); border: 1.5px solid rgba(212,175,55,0.1);
+  border-radius: 8px; color: #E8E6E1; font-size: 15px; font-family: 'DM Sans', sans-serif;
+  outline: none; transition: all 0.3s ease; width: 100%; box-sizing: border-box;
+}
+.pago-field input::placeholder { color: rgba(232,230,225,0.2); }
+.pago-field input:focus, .pago-field select:focus { border-color: rgba(212,175,55,0.5); box-shadow: 0 0 0 3px rgba(212,175,55,0.06); }
+.pago-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(232,230,225,0.3)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+.pago-field select option { background: #0E1C32; color: #E8E6E1; }
+.pago-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pago-input-wrap { position: relative; }
+.pago-input-wrap input { padding-right: 60px; }
+.pago-input-wrap .card-brand { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+
+/* ── Transferencia info ── */
+.pago-transfer-info { padding: 18px; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.12); border-radius: 10px; margin-bottom: 18px; }
+.pago-transfer-info h4 { font-size: 13px; font-weight: 600; color: rgba(59,130,246,0.8); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.pago-transfer-dato { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(59,130,246,0.06); font-size: 13px; }
+.pago-transfer-dato:last-child { border-bottom: none; }
+.pago-transfer-dato span { color: rgba(232,230,225,0.4); }
+.pago-transfer-dato strong { color: rgba(232,230,225,0.85); font-weight: 500; }
+
+/* ── Efectivo ── */
+.pago-efectivo-box { text-align: center; padding: 30px; background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.1); border-radius: 10px; }
+.pago-efectivo-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+.pago-efectivo-box h4 { font-size: 16px; color: rgba(232,230,225,0.8); margin: 0 0 8px; }
+.pago-efectivo-box p { font-size: 13px; color: rgba(232,230,225,0.4); margin: 0; }
+.pago-efectivo-fecha { color: rgba(232,230,225,0.7); font-weight: 500; margin-top: 4px; text-transform: capitalize; }
+
+/* ── Seguridad ── */
+.pago-seguridad { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-size: 11px; color: rgba(232,230,225,0.25); }
+
+/* ── Botón confirmar pago ── */
+.btn-pago-confirmar { display: flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 8px; color: #fff; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.3s ease; }
+.btn-pago-confirmar:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.3); }
+.btn-pago-confirmar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ── Procesando ── */
+.pago-procesando { text-align: center; padding: 40px 20px; }
+.pago-procesando-spinner { margin-bottom: 20px; }
+.pago-procesando h3 { font-size: 18px; color: rgba(232,230,225,0.8); margin: 0 0 8px; font-family: 'Playfair Display', serif; }
+.pago-procesando p { font-size: 13px; color: rgba(232,230,225,0.4); margin: 0 0 24px; }
+.pago-procesando-bar { width: 200px; height: 4px; background: rgba(232,230,225,0.08); border-radius: 2px; margin: 0 auto; overflow: hidden; }
+.pago-procesando-bar-fill { height: 100%; background: linear-gradient(90deg, #D4AF37, #10B981); border-radius: 2px; animation: progressFill 1.5s ease-in-out; }
+
+/* ── Éxito ── */
+.pago-exito { text-align: center; padding: 20px 0; animation: fadeIn 0.4s ease; }
+.pago-exito h3 { font-size: 20px; color: #10B981; margin: 16px 0 8px; font-family: 'Playfair Display', serif; }
+.pago-exito-monto { font-size: 32px; font-weight: 700; color: #D4AF37; font-family: 'Playfair Display', serif; margin: 12px 0 20px; }
+.pago-exito-detalles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; padding: 16px; background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.1); border-radius: 10px; }
+.pago-exito-detalles div { display: flex; flex-direction: column; gap: 2px; }
+.pago-exito-detalles span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(232,230,225,0.3); }
+.pago-exito-detalles strong { font-size: 13px; color: rgba(232,230,225,0.8); font-weight: 500; }
+
+/* btn-pagar hover */
+.btn-pagar:hover { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.2); color: #10B981; }
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .pago-metodos-tabs { grid-template-columns: repeat(2, 1fr); }
+  .pago-field-row { grid-template-columns: 1fr; }
+  .pago-card-visual { height: 160px; padding: 18px; }
+  .pago-card-number { font-size: 16px; letter-spacing: 2px; }
+  .pago-exito-detalles { grid-template-columns: 1fr; }
+}
