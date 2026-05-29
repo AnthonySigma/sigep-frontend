@@ -2,8 +2,22 @@
    LoginPage.css — SIGEP Login
    ============================================================ */
 
-/* ── Google Font (importar en index.html o aquí) ── */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* ── Reset global (IMPORTANTE para Vite) ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 /* ── Animaciones ── */
 @keyframes fadeInUp {
@@ -31,20 +45,24 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Wrapper principal ── */
+/* ── Wrapper principal — PANTALLA COMPLETA ── */
 .login-wrapper {
   display: flex;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   font-family: 'DM Sans', sans-serif;
   background: #0A1628;
   color: #E8E6E1;
+  overflow: hidden;
 }
 
 /* ============================================================
    PANEL IZQUIERDO — Marca
    ============================================================ */
 .login-left {
-  flex: 1 1 52%;
+  width: 52%;
+  min-width: 52%;
+  height: 100vh;
   background: linear-gradient(160deg, #0D1F3C 0%, #0A1628 40%, #091220 100%);
   display: flex;
   flex-direction: column;
@@ -240,17 +258,20 @@
    PANEL DERECHO — Formulario
    ============================================================ */
 .login-right {
-  flex: 1 1 48%;
+  width: 48%;
+  min-width: 48%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(180deg, #0E1A30 0%, #0A1628 50%, #0D1225 100%);
   padding: 40px;
+  overflow-y: auto;
 }
 
 .login-right-inner {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -306,6 +327,7 @@
   display: flex;
   flex-direction: column;
   gap: 22px;
+  width: 100%;
 }
 
 /* Campos */
@@ -313,6 +335,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .field-label {
@@ -325,6 +348,7 @@
 
 .field-wrapper {
   position: relative;
+  width: 100%;
 }
 
 .field-icon {
@@ -352,6 +376,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   letter-spacing: 0.2px;
+  box-sizing: border-box;
 }
 
 .login-input::placeholder {
@@ -444,6 +469,7 @@
   font-weight: 400;
   transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .forgot-link:hover {
@@ -522,11 +548,14 @@
 }
 
 /* ============================================================
-   RESPONSIVE — Móvil
+   RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
   .login-wrapper {
     flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
   }
 
   .login-left {
@@ -534,7 +563,9 @@
   }
 
   .login-right {
-    flex: 1;
+    width: 100%;
+    min-width: 100%;
+    height: 100vh;
     padding: 30px 20px;
   }
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { clientesApi, agentesApi, aseguradorasApi, polizasApi } from "../services/api";
+import { clientesApi, agentesApi, aseguradorasApi, polizasApi, recibosApi } from "../services/api";
 import "./CrearPolizaPage.css";
 
 /* ── Íconos ── */
@@ -191,18 +191,69 @@ export default function CrearPolizaPage() {
   const guardarPoliza = async () => {
     setGuardando(true);
     try {
-      await polizasApi.crear({
-        numeroPoliza: form.numeroPoliza, tipoSeguro: "Auto",
+      // 1. Crear la póliza
+      const polizaData = {
+        numeroPoliza: form.numeroPoliza,
+        tipoSeguro: "Auto",
         cliente: { idCliente: parseInt(form.clienteId) },
         agente: { idAgente: parseInt(form.agenteId) },
         aseguradora: { idAseguradora: parseInt(form.aseguradoraId) },
-        fechaEmision: form.fechaEmision, inicioVigencia: form.inicioVigencia,
-        finVigencia: form.finVigencia, estatusPoliza: "Vigente",
-        formaPago: form.formaPago, moneda: form.moneda,
+        fechaEmision: form.fechaEmision,
+        inicioVigencia: form.inicioVigencia,
+        finVigencia: form.finVigencia,
+        estatusPoliza: "Vigente",
+        formaPago: form.formaPago,
+        moneda: form.moneda,
         rutaPdfPoliza: `/docs/polizas/${form.numeroPoliza}.pdf`,
-      });
+      };
+
+      console.log("Enviando póliza:", polizaData);
+      const polizaCreada = await polizasApi.crear(polizaData);
+      console.log("Respuesta póliza creada:", polizaCreada);
+
+      // 2. Obtener el ID de la póliza creada
+      const idPoliza = polizaCreada?.idPoliza;
+      
+      if (!idPoliza) {
+        alert("La póliza se creó pero no se obtuvo el ID. Revisa la consola del navegador (F12).");
+        setGuardado(true);
+        setGuardando(false);
+        return;
+      }
+
+      // 3. Crear los recibos uno por uno
+      let recibosCreados = 0;
+      for (const recibo of form.recibos) {
+        try {
+          // IMPORTANTE: NO enviar fechaPagoReal (null causa error en Spring Boot)
+          const reciboData = {
+            poliza: { idPoliza: idPoliza },
+            numeroParcialidad: recibo.parcialidad,
+            montoTotal: parseFloat(recibo.montoTotal),
+            montoPrimaNeta: parseFloat(recibo.primaNeta),
+            fechaLimitePago: recibo.fechaLimite,
+            porcentajeComisionAgente: recibo.comision,
+            estatusPago: "Pendiente",
+          };
+          console.log(`Creando recibo ${recibo.parcialidad}:`, reciboData);
+          await recibosApi.crear(reciboData);
+          recibosCreados++;
+        } catch (errRecibo) {
+          console.error(`Error al crear recibo ${recibo.parcialidad}:`, errRecibo);
+        }
+      }
+
+      console.log(`Póliza ${form.numeroPoliza} creada con ${recibosCreados} recibos`);
+      
+      if (recibosCreados === 0 && form.recibos.length > 0) {
+        alert(`La póliza se creó pero los recibos fallaron. Revisa la consola (F12) para ver el error.`);
+      }
+
       setGuardado(true);
-    } catch (e) { alert("Error al guardar: " + e.message); }
+    } catch (e) {
+      console.error("Error completo:", e);
+      alert("Error al guardar: " + e.message);
+    }
     setGuardando(false);
   };
 
